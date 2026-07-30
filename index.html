@@ -579,20 +579,47 @@
     .care-assurance strong { font-size: .88rem; }
     @keyframes carePulse { 0% { opacity: .8; transform: scale(.7); } 100% { opacity: 0; transform: scale(1.5); } }
 
-    .video-section { background: var(--paper); color: var(--ink); }
+    .video-section { overflow: hidden; background: var(--paper); color: var(--ink); }
     .video-head { display: flex; align-items: end; justify-content: space-between; gap: 40px; }
-    .video-head .display { max-width: 760px; }
+    .video-head .display { max-width: 800px; }
     .video-head .display .stroke { -webkit-text-stroke-color: rgba(11,11,11,.38); }
-    .video-card { position: relative; min-height: 590px; margin-top: 48px; overflow: hidden; border-radius: 28px; background: #111; color: var(--white); cursor: pointer; isolation: isolate; box-shadow: 0 26px 70px rgba(0,0,0,.22); }
-    .video-card::before { position: absolute; z-index: -2; inset: 0; background: url("https://i.ytimg.com/vi/Q-leBTUeofc/maxresdefault.jpg") center / cover; content: ""; filter: brightness(.62) saturate(.65); transition: transform .7s ease, filter .4s ease; }
-    .video-card::after { position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.85), transparent 60%), linear-gradient(90deg, rgba(0,0,0,.65), transparent 60%); content: ""; }
-    .video-card:hover::before { filter: brightness(.72) saturate(.85); transform: scale(1.025); }
-    .play-button { position: absolute; top: 50%; left: 50%; display: grid; width: 92px; height: 92px; place-items: center; border: 0; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 18px rgba(206,32,38,.18); cursor: pointer; transform: translate(-50%,-50%); transition: transform .3s ease, box-shadow .3s ease; }
-    .video-card:hover .play-button { box-shadow: 0 0 0 28px rgba(206,32,38,.12); transform: translate(-50%,-50%) scale(1.06); }
-    .play-button::before { margin-left: 5px; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 17px solid var(--white); content: ""; }
-    .video-info { position: absolute; inset: auto 0 0; display: flex; align-items: end; justify-content: space-between; gap: 30px; padding: 34px; }
-    .video-info h3 { margin: 5px 0 0; font-family: "Bebas Neue", sans-serif; font-size: clamp(2rem, 4vw, 3.6rem); font-weight: 400; }
-    .video-info span { color: #bbb; font-size: .72rem; }
+    .video-head .lead { max-width: 470px; }
+    .video-library { margin-top: 46px; }
+    .video-brand-tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding: 3px 3px 8px; scrollbar-width: none; scroll-snap-type: x proximity; }
+    .video-brand-tabs::-webkit-scrollbar { display: none; }
+    .video-brand-tab { --tab-accent: var(--red); display: inline-flex; min-width: 178px; min-height: 56px; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 18px; padding: 10px 12px 10px 18px; border: 1px solid #d3cfc7; border-radius: 999px; background: rgba(255,255,255,.5); color: #3d3d3d; font-size: .72rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; cursor: pointer; scroll-snap-align: start; transition: border-color .25s ease, background .25s ease, color .25s ease, transform .25s ease; }
+    .video-brand-tab[data-brand="falken"] { --tab-accent: #1857a8; }
+    .video-brand-tab[data-brand="kenda"] { --tab-accent: #d91e2b; }
+    .video-brand-tab[data-brand="sunoco"] { --tab-accent: #edb311; }
+    .video-brand-tab span { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: #e5e1da; color: #64615d; font-size: .62rem; transition: background .25s ease, color .25s ease; }
+    .video-brand-tab:hover { border-color: var(--tab-accent); transform: translateY(-2px); }
+    .video-brand-tab[aria-pressed="true"] { border-color: #111; background: #111; color: #fff; box-shadow: 0 14px 28px rgba(0,0,0,.13); }
+    .video-brand-tab[aria-pressed="true"] span { background: var(--tab-accent); color: #fff; }
+    .video-brand-panel[hidden] { display: none; }
+    .video-library-grid { display: grid; min-height: 530px; grid-template-columns: minmax(0, 1.4fr) minmax(310px, .8fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .media-video-card { --video-accent: var(--red); position: relative; min-width: 0; overflow: hidden; border: 0; border-radius: 24px; background: #111; color: #fff; cursor: pointer; isolation: isolate; text-align: left; box-shadow: 0 18px 50px rgba(0,0,0,.16); }
+    .media-video-card[data-brand="falken"] { --video-accent: #2265b9; }
+    .media-video-card[data-brand="kenda"] { --video-accent: #df252f; }
+    .media-video-card[data-brand="sunoco"] { --video-accent: #edb311; }
+    .media-video-card.featured { grid-row: 1 / 3; }
+    .media-video-card > img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.62) saturate(.9); transition: filter .45s ease, transform .75s cubic-bezier(.2,.7,.2,1); }
+    .media-video-card::after { position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.93) 0, rgba(0,0,0,.28) 62%, rgba(0,0,0,.12)), linear-gradient(110deg, rgba(0,0,0,.36), transparent 55%); content: ""; }
+    .media-video-card:hover > img, .media-video-card:focus-visible > img { filter: brightness(.74) saturate(1.08); transform: scale(1.045); }
+    .media-video-card:focus-visible { outline: 3px solid var(--video-accent); outline-offset: 3px; }
+    .media-video-meta { position: absolute; z-index: 1; top: 22px; left: 22px; display: flex; align-items: center; gap: 8px; }
+    .media-video-brand, .media-video-kind { padding: 8px 10px; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; background: rgba(5,5,5,.64); color: #fff; font-size: .58rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(8px); }
+    .media-video-brand { border-color: var(--video-accent); background: var(--video-accent); }
+    .media-video-content { position: absolute; z-index: 1; right: 22px; bottom: 22px; left: 22px; display: flex; align-items: end; justify-content: space-between; gap: 18px; }
+    .media-video-copy { max-width: 82%; }
+    .media-video-copy small { display: block; margin-bottom: 7px; color: #d8d8d8; font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .media-video-title { display: block; margin: 0; font-family: "Bebas Neue", sans-serif; font-size: clamp(1.55rem, 2.2vw, 2.55rem); font-weight: 400; line-height: .98; }
+    .media-video-card.featured .media-video-title { font-size: clamp(2.7rem, 4.7vw, 5rem); }
+    .media-video-play { position: relative; display: grid; width: 54px; height: 54px; flex: 0 0 54px; place-items: center; border-radius: 50%; background: var(--video-accent); box-shadow: 0 0 0 10px rgba(255,255,255,.1); transition: transform .25s ease, box-shadow .25s ease; }
+    .media-video-play::before { margin-left: 3px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 11px solid #fff; content: ""; }
+    .media-video-card[data-brand="sunoco"] .media-video-play::before { border-left-color: #111; }
+    .media-video-card:hover .media-video-play, .media-video-card:focus-visible .media-video-play { box-shadow: 0 0 0 16px rgba(255,255,255,.1); transform: scale(1.06); }
+    .video-library-note { display: flex; align-items: center; gap: 9px; margin: 15px 4px 0; color: #666; font-size: .64rem; }
+    .video-library-note::before { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: #40b66d; box-shadow: 0 0 0 5px rgba(64,182,109,.11); content: ""; }
     .resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
     .resource-card { display: flex; min-height: 115px; align-items: center; justify-content: space-between; gap: 18px; padding: 20px; border: 1px solid #d2cec7; border-radius: 16px; transition: background .25s ease, transform .25s ease; }
     .resource-card:hover { background: var(--white); transform: translateY(-3px); }
@@ -874,10 +901,14 @@
       .care-node h3 { margin-top: 55px; }
       .care-assurance { align-items: stretch; flex-direction: column; }
       .care-assurance .btn { width: 100%; }
-      .video-card { min-height: 460px; }
-      .play-button { width: 72px; height: 72px; }
-      .video-info { padding: 22px; }
-      .video-info > span { display: none; }
+      .video-library { margin-top: 34px; }
+      .video-library-grid { min-height: 0; grid-template-columns: 1fr; grid-template-rows: auto; }
+      .media-video-card, .media-video-card.featured { min-height: 270px; grid-row: auto; }
+      .media-video-card.featured { min-height: 390px; }
+      .media-video-card.featured .media-video-title { font-size: clamp(2.8rem, 13vw, 4.2rem); }
+      .media-video-content { right: 18px; bottom: 18px; left: 18px; }
+      .media-video-meta { top: 18px; left: 18px; }
+      .media-video-copy { max-width: calc(100% - 65px); }
       .resource-grid, .location-grid { grid-template-columns: 1fr; }
       .location-card { min-height: 520px; }
       .location-map { height: 270px; }
@@ -939,7 +970,11 @@
       .vip-unlock-button { font-size: .64rem; }
       .vip-button-icon, .vip-unlock-button .arrow { width: 31px; height: 31px; flex-basis: 31px; }
       .care-node, .care-node:first-child, .care-node:nth-child(odd) { flex-basis: 92%; }
-      .video-card { min-height: 410px; }
+      .video-brand-tab { min-width: 158px; min-height: 52px; padding-left: 15px; }
+      .media-video-card, .media-video-card.featured { min-height: 245px; border-radius: 18px; }
+      .media-video-card.featured { min-height: 350px; }
+      .media-video-kind { display: none; }
+      .media-video-play { width: 47px; height: 47px; flex-basis: 47px; }
       .location-map { height: 240px; }
       .booking-contact, .footer-links { grid-template-columns: 1fr; }
       .footer-links { gap: 28px; }
@@ -1427,10 +1462,77 @@
       </div>
     </section>
 
-    <section class="section video-section" aria-labelledby="video-title">
+    <section class="section video-section" id="videos" aria-labelledby="video-title">
       <div class="container">
-        <div class="video-head reveal"><div><p class="section-tag">Contenido que suma</p><h2 class="display" id="video-title">Mira la tecnología <span class="stroke">en acción.</span></h2></div><p class="lead">Conoce cómo una llanta all-terrain combina confianza en carretera y capacidad fuera del asfalto.</p></div>
-        <div class="video-card reveal" id="videoTrigger"><button class="play-button" type="button" aria-label="Reproducir video Kenda Klever A/T2"></button><div class="video-info"><div><span class="eyebrow">Video oficial Kenda</span><h3>Klever A/T2 · hecha para ir más lejos</h3></div><span>Reproducción externa · YouTube</span></div></div>
+        <div class="video-head reveal"><div><p class="section-tag">Videoteca oficial</p><h2 class="display" id="video-title">Historias que <span class="stroke">se sienten.</span></h2></div><p class="lead">Nueve piezas oficiales para conocer el carácter, la ingeniería y la historia de Falken, Kenda y Sunoco. Elige una marca y dale play.</p></div>
+        <div class="video-library reveal">
+          <div class="video-brand-tabs" role="group" aria-label="Filtrar videos por marca">
+            <button class="video-brand-tab" type="button" data-brand="falken" aria-pressed="true" aria-controls="videos-falken">Falken <span>03</span></button>
+            <button class="video-brand-tab" type="button" data-brand="kenda" aria-pressed="false" aria-controls="videos-kenda">Kenda <span>03</span></button>
+            <button class="video-brand-tab" type="button" data-brand="sunoco" aria-pressed="false" aria-controls="videos-sunoco">Sunoco <span>03</span></button>
+          </div>
+
+          <div class="video-brand-panel" id="videos-falken" data-brand-panel="falken">
+            <div class="video-library-grid">
+              <button class="media-video-card featured" type="button" data-brand="falken" data-video-id="W-DroDEfJEY" data-video-title="Falken WILDPEAK A/T4W · comercial oficial" aria-label="Reproducir comercial oficial Falken WILDPEAK A/T4W">
+                <img src="https://i.ytimg.com/vi/W-DroDEfJEY/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Falken WILDPEAK A/T4W en su comercial oficial">
+                <span class="media-video-meta"><span class="media-video-brand">Falken</span><span class="media-video-kind">A/T4W</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Comercial oficial</small><span class="media-video-title">WILDPEAK A/T4W</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+              <button class="media-video-card" type="button" data-brand="falken" data-video-id="Rmpd9XmYo94" data-video-title="Familia Falken WILDPEAK · comercial oficial" aria-label="Reproducir comercial de la familia Falken WILDPEAK">
+                <img src="https://i.ytimg.com/vi/Rmpd9XmYo94/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Familia de llantas Falken WILDPEAK">
+                <span class="media-video-meta"><span class="media-video-brand">Falken</span><span class="media-video-kind">WILDPEAK</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Familia all-terrain</small><span class="media-video-title">WILDPEAK FAMILY</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+              <button class="media-video-card" type="button" data-brand="falken" data-video-id="MORC4SdXl9M" data-video-title="Falken Tyre · Brandmovie Edition 2022" aria-label="Reproducir Falken Tyre Brandmovie Edition 2022">
+                <img src="https://i.ytimg.com/vi/MORC4SdXl9M/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Escena cinematográfica de Falken Tyre Brandmovie 2022">
+                <span class="media-video-meta"><span class="media-video-brand">Falken</span><span class="media-video-kind">Brandmovie</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Edición cinematográfica 2022</small><span class="media-video-title">DRIVING EMOTION</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="video-brand-panel" id="videos-kenda" data-brand-panel="kenda" hidden>
+            <div class="video-library-grid">
+              <button class="media-video-card featured" type="button" data-brand="kenda" data-video-id="QE3hFs2Qm2k" data-video-title="Kenda Executioner Tire · video oficial" aria-label="Reproducir video oficial Kenda Executioner Tire">
+                <img src="https://i.ytimg.com/vi/QE3hFs2Qm2k/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Kenda Executioner Tire en acción">
+                <span class="media-video-meta"><span class="media-video-brand">Kenda</span><span class="media-video-kind">Executioner</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Video oficial de producto</small><span class="media-video-title">EXECUTIONER</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+              <button class="media-video-card" type="button" data-brand="kenda" data-video-id="w4hmxJyEeEY" data-video-title="Kenda · Designed For Your Journey" aria-label="Reproducir comercial Kenda Designed For Your Journey">
+                <img src="https://i.ytimg.com/vi/w4hmxJyEeEY/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Comercial Kenda Designed For Your Journey">
+                <span class="media-video-meta"><span class="media-video-brand">Kenda</span><span class="media-video-kind">Journey</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Comercial de marca</small><span class="media-video-title">DESIGNED FOR YOUR JOURNEY</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+              <button class="media-video-card" type="button" data-brand="kenda" data-video-id="yRvQ3Mlf5Ac" data-video-title="Kenda · Keep your trailer customers moving" aria-label="Reproducir video Kenda Keep your trailer customers moving">
+                <img src="https://i.ytimg.com/vi/yRvQ3Mlf5Ac/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Soluciones Kenda para mantener trailers en movimiento">
+                <span class="media-video-meta"><span class="media-video-brand">Kenda</span><span class="media-video-kind">Trailer</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Soluciones para trailer</small><span class="media-video-title">KEEP MOVING</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="video-brand-panel" id="videos-sunoco" data-brand-panel="sunoco" hidden>
+            <div class="video-library-grid">
+              <button class="media-video-card featured" type="button" data-brand="sunoco" data-video-id="66hoFumjRRY" data-video-title="Sunoco Commercial · Dale Earnhardt Jr. 2004" aria-label="Reproducir comercial Sunoco con Dale Earnhardt Jr. de 2004">
+                <img src="https://i.ytimg.com/vi/66hoFumjRRY/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Dale Earnhardt Jr. en comercial Sunoco de 2004">
+                <span class="media-video-meta"><span class="media-video-brand">Sunoco</span><span class="media-video-kind">Motorsport</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Dale Earnhardt Jr. · 2004</small><span class="media-video-title">RACING HERITAGE</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+              <button class="media-video-card" type="button" data-brand="sunoco" data-video-id="yYncgRW-k9I" data-video-title="Sunoco · You Don't Need · spot oficial" aria-label="Reproducir spot Sunoco You Don't Need">
+                <img src="https://i.ytimg.com/vi/yYncgRW-k9I/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Spot oficial Sunoco You Don't Need">
+                <span class="media-video-meta"><span class="media-video-brand">Sunoco</span><span class="media-video-kind">15 segundos</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Spot oficial</small><span class="media-video-title">YOU DON'T NEED</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+              <button class="media-video-card" type="button" data-brand="sunoco" data-video-id="v6uUIHn2c-A" data-video-title="Sunoco 1969 · AMC Javelin" aria-label="Reproducir comercial vintage Sunoco AMC Javelin de 1969">
+                <img src="https://i.ytimg.com/vi/v6uUIHn2c-A/hqdefault.jpg" loading="lazy" width="480" height="360" alt="Comercial histórico Sunoco AMC Javelin de 1969">
+                <span class="media-video-meta"><span class="media-video-brand">Sunoco</span><span class="media-video-kind">Archivo 1969</span></span>
+                <span class="media-video-content"><span class="media-video-copy"><small>Clásico con AMC Javelin</small><span class="media-video-title">1969 · VINTAGE SUNOCO</span></span><span class="media-video-play" aria-hidden="true"></span></span>
+              </button>
+            </div>
+          </div>
+          <p class="video-library-note">Contenido publicado por los canales oficiales de cada marca. Los videos se reproducen mediante YouTube.</p>
+        </div>
         <div class="resource-grid">
           <a class="resource-card reveal" href="https://automotive.kendatire.com/en-us/tire-tech/tire-101/" target="_blank" rel="noopener noreferrer"><div><b>Cómo leer una llanta</b><span>Medida, índice de carga y velocidad</span></div><span class="resource-arrow">↗</span></a>
           <a class="resource-card reveal delay-1" href="#recomendador"><div><b>Encuentra tu referencia</b><span>Empieza por tu tipo de vehículo</span></div><span class="resource-arrow">↓</span></a>
@@ -1499,7 +1601,7 @@
 
   <button class="whatsapp-float" type="button" data-wa="Hola Depot Tire, necesito ayuda con mi vehículo." aria-label="Escribir a Depot Tire por WhatsApp"><span class="wa-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.04 2a9.84 9.84 0 0 0-8.42 14.93L2 22l5.2-1.57A9.9 9.9 0 1 0 12.04 2Zm0 17.98a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.08.93.98-3-.2-.31a8.06 8.06 0 1 1 6.73 3.69Zm4.43-6.04c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.47-.39-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.51.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28Z"/></svg></span><span>¿Te ayudamos?</span></button>
 
-  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Video Kenda Klever A/T2" hidden><div class="modal-panel"><button class="modal-close" id="modalClose" type="button" aria-label="Cerrar video">×</button><div id="videoFrame"></div></div></div>
+  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Reproductor de video oficial" hidden><div class="modal-panel"><button class="modal-close" id="modalClose" type="button" aria-label="Cerrar video">×</button><div id="videoFrame"></div></div></div>
 
   <div class="coupon-modal" id="couponModal" role="dialog" aria-modal="true" aria-labelledby="couponTitle" hidden>
     <div class="coupon-panel">
@@ -1886,12 +1988,23 @@
 
       const modal = $('#videoModal');
       const videoFrame = $('#videoFrame');
-      const videoTrigger = $('#videoTrigger');
-      const videoButton = $('.play-button', videoTrigger);
-      const proofVideoTriggers = $$('.proof-video-trigger');
-      let activeVideoButton = videoButton;
-      const openVideo = (videoId = 'Q-leBTUeofc', videoTitle = 'Kenda Klever A/T2') => {
-        videoFrame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0" title="${videoTitle}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      const videoBrandTabs = $$('.video-brand-tab');
+      const videoBrandPanels = $$('.video-brand-panel');
+      const videoTriggers = $$('.media-video-card, .proof-video-trigger');
+      let activeVideoButton = null;
+      const selectVideoBrand = (brand) => {
+        videoBrandTabs.forEach((tab) => tab.setAttribute('aria-pressed', String(tab.dataset.brand === brand)));
+        videoBrandPanels.forEach((panel) => { panel.hidden = panel.dataset.brandPanel !== brand; });
+      };
+      videoBrandTabs.forEach((tab) => tab.addEventListener('click', () => selectVideoBrand(tab.dataset.brand)));
+      const openVideo = (videoId, videoTitle) => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+        iframe.title = videoTitle;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.allowFullscreen = true;
+        videoFrame.replaceChildren(iframe);
+        modal.setAttribute('aria-label', `Video: ${videoTitle}`);
         modal.hidden = false;
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -1902,10 +2015,9 @@
         modal.hidden = true;
         videoFrame.innerHTML = '';
         document.body.style.overflow = '';
-        activeVideoButton.focus();
+        activeVideoButton?.focus();
       };
-      videoTrigger.addEventListener('click', () => { activeVideoButton = videoButton; openVideo(); });
-      proofVideoTriggers.forEach((button) => button.addEventListener('click', () => {
+      videoTriggers.forEach((button) => button.addEventListener('click', () => {
         activeVideoButton = button;
         openVideo(button.dataset.videoId, button.dataset.videoTitle);
       }));
